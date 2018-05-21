@@ -11,6 +11,11 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
+        stage('Static Code Analysis') {
+            steps {
+                sh 'mvn -B -DskipTests checkstyle:checkstyle pmd:pmd findBugs:findBugs'
+            }
+        }
         stage('Test') {
             steps {
                 sh 'mvn test'
