@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Static Code Analysis') {
             steps {
-                sh 'mvn -B -DskipTests checkstyle:checkstyle pmd:pmd findBugs:findBugs'
+                sh 'mvn -B -DskipTests clean checkstyle:checkstyle pmd:pmd findbugs:findbugs'
             }
         }
         stage('Test') {
