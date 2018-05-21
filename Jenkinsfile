@@ -13,7 +13,12 @@ pipeline {
         }
         stage('Static Code Analysis') {
             steps {
-                sh 'mvn -B -DskipTests clean checkstyle:checkstyle pmd:pmd findbugs:findbugs'
+                withMaven(
+                        maven: 'M3',
+                        options: [findbugsPublisher(), checkstyle(), pmd(), junitPublisher(ignoreAttachments: false)]
+                ) {
+                    sh "$MVN_CMD -B -DskipTests clean package checkstyle:checkstyle findbugs:findbugs pmd:pmd"
+                }
             }
         }
         stage('Test') {
