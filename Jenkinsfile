@@ -36,9 +36,6 @@ pipeline {
             steps {
                 sh './jenkins/scripts/deliver.sh'
             }
-            post {
-                slackSend color: 'good', message: 'Message from Jenkins Pipeline'
-            }
         }
     }
 }
