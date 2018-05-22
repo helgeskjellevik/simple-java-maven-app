@@ -21,7 +21,7 @@ pipeline {
         maven 'M3'
     }
     environment {
-        responseStatus 0
+        responseStatus=0
     }
     stages {
         stage ('Start') {
