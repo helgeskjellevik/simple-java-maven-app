@@ -54,7 +54,8 @@ pipeline {
         }
         stage('Validate') {
             steps {
-                httpRequest "https://secure.nordealiv.no/test_dialog6/check"
+                httpRequest consoleLogResponseBody: true,
+                            url: "https://secure.nordealiv.no/test_dialog6/check"
                 //println('Status: '+response.status)
                 //println('Response: '+response.content)
             }
