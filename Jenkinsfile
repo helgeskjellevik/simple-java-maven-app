@@ -17,6 +17,9 @@ pipeline {
         */
         cron("*/2 * * * *")
     }
+    tools {
+        maven 'M3'
+    }
     stages {
         stage ('Start') {
             steps {
