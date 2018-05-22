@@ -55,7 +55,8 @@ pipeline {
         stage('Validate') {
             steps {
                 httpRequest consoleLogResponseBody: true,
-                            url: "https://jsonplaceholder.typicode.com/posts"
+                            url: "https://jsonplaceholder.typicode.com/posts",
+                            timeout: 100
                 //println('Status: '+response.status)
                 //println('Response: '+response.content)
             }
@@ -63,11 +64,17 @@ pipeline {
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
-                sleep 30
             }
         }
     }
     post {
+        always {
+            step([$class: 'Mailer',
+                  notifyEveryUnstableBuild: true,
+                  recipients: "helge.skjellevik@gmail.com",
+                  sendToIndividuals: true])
+        }
+
         success {
             slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
