@@ -64,21 +64,23 @@ pipeline {
                     //println("Status: " + response.status)
                     println("Content: " + response.content)
 
-                    when {
-                        responseStatus 200
-                    }
-                    steps {
-                        echo 'Response 200'
-                    }
-                    when {
-                        responseStatus 500
-                    }
-                    steps {
-                        echo 'Response 500'
-                    }
                 }
                 //println('Status: '+response.status)
                 //println('Response: '+response.content)
+            }
+        }
+        stage('Status') {
+            when {
+                responseStatus 200
+            }
+            steps {
+                echo 'Response 200'
+            }
+            when {
+                responseStatus 500
+            }
+            steps {
+                echo 'Response 500'
             }
         }
         stage('Deliver') {
