@@ -52,6 +52,11 @@ pipeline {
                 }
             }
         }
+        stage('Validate') {
+            def response = httpRequest "https://secure.nordealiv.no/test_dialog6/check"
+            println('Status: '+response.status)
+            println('Response: '+response.content)
+        }
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
