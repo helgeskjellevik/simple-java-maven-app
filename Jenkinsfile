@@ -76,12 +76,6 @@ pipeline {
             steps {
                 echo 'Response 200'
             }
-            when {
-                responseStatus 500
-            }
-            steps {
-                echo 'Response 500'
-            }
         }
         stage('Deliver') {
             steps {
