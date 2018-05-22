@@ -55,12 +55,27 @@ pipeline {
         stage('Validate') {
             steps {
                 script {
-                    def response = httpRequest consoleLogResponseBody: true,
-                            url: "https://jsonplaceholder.typicode.com/posts",
-                            timeout: 100
+                    def response = httpRequest timeout: 100,
+                            //consoleLogResponseBody: true,
+                            url: "https://jsonplaceholder.typicode.com/posts"
 
-                    println("Status: " + response.status)
+                    def responseStatus = response.status
+
+                    //println("Status: " + response.status)
                     println("Content: " + response.content)
+
+                    when {
+                        responseStatus 200
+                    }
+                    steps {
+                        echo 'Response 200'
+                    }
+                    when {
+                        responseStatus 500
+                    }
+                    steps {
+                        echo 'Response 500'
+                    }
                 }
                 //println('Status: '+response.status)
                 //println('Response: '+response.content)
