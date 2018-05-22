@@ -10,6 +10,13 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr:'5'))
         timestamps()
     }
+    triggers {
+        /*
+          Restrict nightly builds to master branch, all others will be built on change only.
+          Note: The BRANCH_NAME will only work with a multi-branch job using the github-branch-source
+        */
+        cron(BRANCH_NAME == "master" ? "*/2 * * * *" : "")
+    }
     stages {
         stage ('Start') {
             steps {
