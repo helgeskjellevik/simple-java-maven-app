@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 withMaven(
-                        maven: 'M3',
+                        //maven: 'M3',
                         options: [findbugsPublisher(), checkstyle(), pmd(), junitPublisher(ignoreAttachments: false)]
                 ) {
                     sh "$MVN_CMD -B -DskipTests clean package checkstyle:checkstyle findbugs:findbugs pmd:pmd package"
