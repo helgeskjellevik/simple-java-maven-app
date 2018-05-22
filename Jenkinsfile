@@ -5,12 +5,17 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
-        stages {
-            stage ('Start') {
-                steps {
-                    slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
+    options {
+        // Only keep the 10 most recent builds
+        buildDiscarder(logRotator(numToKeepStr:'5'))
+        timestamps()
+    }
+    stages {
+        stage ('Start') {
+            steps {
+                slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             }
+        }
         stage('Build') {
             steps {
 
