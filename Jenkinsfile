@@ -20,6 +20,9 @@ pipeline {
     tools {
         maven 'M3'
     }
+    environment {
+        responseStatus 0
+    }
     stages {
         stage ('Start') {
             steps {
@@ -59,7 +62,7 @@ pipeline {
                             //consoleLogResponseBody: true,
                             url: "https://jsonplaceholder.typicode.com/posts"
 
-                    def responseStatus = response.status
+                    responseStatus = response.status
 
                     //println("Status: " + response.status)
                     println("Content: " + response.content)
