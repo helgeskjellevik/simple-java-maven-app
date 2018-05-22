@@ -55,7 +55,7 @@ pipeline {
         stage('Validate') {
             steps {
                 httpRequest consoleLogResponseBody: true,
-                            url: "https://secure.nordealiv.no/test_dialog6/check"
+                            url: "https://jsonplaceholder.typicode.com/posts"
                 //println('Status: '+response.status)
                 //println('Response: '+response.content)
             }
