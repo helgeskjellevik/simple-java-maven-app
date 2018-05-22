@@ -71,7 +71,9 @@ pipeline {
         }
         stage('Status') {
             when {
-                responseStatus 200
+                expression {
+                    return responseStatus == 200
+                }
             }
             steps {
                 echo 'Response 200'
