@@ -15,7 +15,7 @@ pipeline {
           Restrict nightly builds to master branch, all others will be built on change only.
           Note: The BRANCH_NAME will only work with a multi-branch job using the github-branch-source
         */
-        cron("*/50 * * * *")
+        cron("*/60 * * * *")
     }
     tools {
         maven 'M3'
@@ -58,7 +58,7 @@ pipeline {
         stage('Validate') {
             steps {
                 script {
-                    def response = httpRequest timeout(time: 1, unit: 'MINUTES'),
+                    def response = httpRequest timeout: 100,
                             //consoleLogResponseBody: true,
                             url: "https://jsonplaceholder.typicode.com/posts"
 
