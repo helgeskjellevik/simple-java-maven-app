@@ -80,7 +80,7 @@ pipeline {
         stage('Validate') {
             steps {
                 script {
-                    def response = httpRequest timeout: 100,
+                    def response = httpRequest timeout: 200,
                             //consoleLogResponseBody: true,
                             url: "https://jsonplaceholder.typicode.com/posts"
 
