@@ -33,24 +33,24 @@ pipeline {
                 slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) (${env.IMAGE}) (${env.VERSION})")
             }
         }
-        stage('Prepare') {
-            steps {
-                // GIT submodule recursive checkout
-                checkout scm: [
-                        $class: 'GitSCM',
-                        branches: scm.branches,
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [[$class: 'SubmoduleOption',
-                                      disableSubmodules: false,
-                                      parentCredentials: false,
-                                      recursiveSubmodules: true,
-                                      reference: '',
-                                      trackingSubmodules: false]],
-                        submoduleCfg: [],
-                        userRemoteConfigs: scm.userRemoteConfigs //https://github.com/helgeskjellevik/simple-java-maven-app.git
-                ]
-            }
-        }
+        //stage('Prepare') {
+        //    steps {
+        //        // GIT submodule recursive checkout
+        //        checkout scm: [
+        //                $class: 'GitSCM',
+        //                branches: scm.branches,
+        //                doGenerateSubmoduleConfigurations: false,
+        //                extensions: [[$class: 'SubmoduleOption',
+        //                              disableSubmodules: false,
+        //                              parentCredentials: false,
+        //                              recursiveSubmodules: true,
+        //                              reference: '',
+        //                              trackingSubmodules: false]],
+        //                submoduleCfg: [],
+        //                userRemoteConfigs: scm.userRemoteConfigs //https://github.com/helgeskjellevik/simple-java-maven-app.git
+        //        ]
+        //    }
+        //}
         stage('Build') {
             steps {
 
