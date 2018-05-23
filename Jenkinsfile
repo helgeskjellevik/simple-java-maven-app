@@ -15,7 +15,7 @@ pipeline {
           Restrict nightly builds to master branch, all others will be built on change only.
           Note: The BRANCH_NAME will only work with a multi-branch job using the github-branch-source
         */
-        cron("*/60 * * * *")
+        cron("*/50 * * * *")
     }
     tools {
         maven 'M3'
@@ -65,11 +65,8 @@ pipeline {
                     responseStatus = response.status
 
                     //println("Status: " + response.status)
-                    println("Content: " + response.content)
-
+                    //println("Content: " + response.content)
                 }
-                //println('Status: '+response.status)
-                //println('Response: '+response.content)
             }
         }
         stage('Status') {
