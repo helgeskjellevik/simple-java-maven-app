@@ -22,11 +22,15 @@ pipeline {
     }
     environment {
         responseStatus=0
+
+        //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
+        IMAGE = readMavenPom().getArtifactId()
+        VERSION = readMavenPom().getVersion()
     }
     stages {
         stage ('Start') {
             steps {
-                slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) (${env.IMAGE}) (${env.VERSION})")
             }
         }
         stage('Build') {
