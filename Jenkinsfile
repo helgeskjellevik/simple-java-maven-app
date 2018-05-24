@@ -64,7 +64,7 @@ pipeline {
         }
         stage('QA') {
             steps {
-                parallel {
+                parallel (
                     stage('Sonar') {
                         steps {
                             withSonarQubeEnv('sonarqube') {
@@ -79,7 +79,7 @@ pipeline {
                             }
                         }
                     }
-                }
+                )
             }
         }
 
