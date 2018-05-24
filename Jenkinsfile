@@ -149,6 +149,7 @@ pipeline {
                         script{
                             unstash 'targetfiles'
                             sh 'ls -l -R'
+                            sh 'cd docker'
                             def image = docker.build("image-name:test", ' .')
                         }
                     }
