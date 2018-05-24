@@ -43,6 +43,14 @@ pipeline {
                 //checkout scm
             }
         }
+        stage('Sonar') {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    // requires SonarQube Scanner for Maven 3.2+
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
         stage('Build') {
             steps {
 
@@ -79,14 +87,6 @@ pipeline {
                         echo "But you probably guessed that already."
                     }
                 )
-            }
-        }
-        stage('Sonar') {
-            steps {
-                withSonarQubeEnv('sonarqube') {
-                    // requires SonarQube Scanner for Maven 3.2+
-                    sh 'mvn sonar:sonar'
-                }
             }
         }
         stage('Database migration') {
