@@ -141,7 +141,7 @@ pipeline {
                 }
                 stage('dockerStyle') {
                     agent {
-                        node {
+                        docker {
                             image 'alpine:3.7'
                         }
                     }
