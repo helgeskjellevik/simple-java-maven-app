@@ -140,11 +140,16 @@ pipeline {
                     }
                 }
                 stage('dockerStyle') {
+                    agent {
+                        node {
+                            image 'alpine:3.7'
+                        }
+                    }
                     steps {
                         script{
                             unstash 'targetfiles'
-                            sh 'ls -l -R'
                             sh 'cd docker'
+                            sh 'ls -l -R'
                             def image = docker.build("image-name:test", ' .')
                         }
                     }
