@@ -142,7 +142,7 @@ pipeline {
                 stage('dockerStyle') {
                     agent {
                         docker {
-                            image 'alpine:3.7'
+                            image 'ubuntu:18.04'
                         }
                     }
                     steps {
