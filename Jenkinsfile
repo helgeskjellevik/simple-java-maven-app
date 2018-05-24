@@ -34,6 +34,9 @@ pipeline {
                 slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) (${env.IMAGE}) (${env.VERSION})")
             }
         }
+        stage('Checkout') {
+            checkout scm
+        }
         //stage('Prepare') {
         //    steps {
         //        // GIT submodule recursive checkout
