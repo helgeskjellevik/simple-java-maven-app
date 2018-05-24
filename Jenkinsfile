@@ -15,7 +15,7 @@ pipeline {
           Restrict nightly builds to master branch, all others will be built on change only.
           Note: The BRANCH_NAME will only work with a multi-branch job using the github-branch-source
         */
-        cron("*/30 * * * *")
+        cron("*/50 * * * *")
     }
     tools {
         maven 'M3'
@@ -30,7 +30,7 @@ pipeline {
     stages {
         stage ('Start') {
             steps {
-                echo 'from local repository'
+                echo 'from local repository: HI'
                 slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) (${env.IMAGE}) (${env.VERSION})")
             }
         }
