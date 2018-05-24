@@ -140,11 +140,6 @@ pipeline {
                     }
                 }
                 stage('dockerStyle') {
-                    agent {
-                        node {
-                            label 'DockerDefault'
-                        }
-                    }
                     steps {
                         script{
                             unstash 'targetfiles'
