@@ -146,12 +146,15 @@ pipeline {
                         }
                     }
                     steps {
-                        script{
-                            unstash 'targetfiles'
-                            sh 'cd docker'
-                            sh 'ls -l -R'
-                            def image = docker.build("image-name:test", ' .')
-                        }
+                        withDocker(
+                            script{
+                                unstash 'targetfiles'
+                                sh 'cd docker'
+                                sh 'ls -l -R'
+                                def image = docker.build("image-name:test", ' .')
+                            }
+                        )
+
                     }
                 }
             }
