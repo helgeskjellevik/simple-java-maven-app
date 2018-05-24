@@ -65,6 +65,22 @@ pipeline {
                 }
             }
         }
+        stage('Parallell test') {
+            steps {
+                parallel(
+                    one: {
+                        echo "I'm on the first branch!"
+                    },
+                    two: {
+                        echo "I'm on the second branch!"
+                    },
+                    three: {
+                        echo "I'm on the third branch!"
+                        echo "But you probably guessed that already."
+                    })
+                }
+            }
+        }
         stage('Database migration') {
             steps {
                 //flywayrunner installationName: "${env.FLYWAY_NAME}", flywayCommand: 'clean', credentialsId: "${env.FLYWAY_CREDENTIALS}", url: "${env.FLYWAY_DB_URL}", locations: "${env.FLYWAY_LOCATION}", commandLineArgs: ''
