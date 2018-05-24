@@ -151,7 +151,8 @@ pipeline {
                                 unstash 'targetfiles'
                                 sh 'cd docker'
                                 sh 'ls -l -R'
-                                def image = docker.build("image-name:test", ' .')
+                                sh 'docker build -f="test" .'
+                                //def image = docker.build("image-name:test", ' .')
                             }
                         }
                     }
