@@ -85,7 +85,6 @@ pipeline {
             steps {
                 script {
                     def response = httpRequest timeout: 200,
-                            //consoleLogResponseBody: true,
                             url: "https://jsonplaceholder.typicode.com/posts"
 
                     responseStatus = response.status
@@ -112,12 +111,11 @@ pipeline {
         }
     }
     post {
-        always {
-            step([$class: 'Mailer',
-                  //notifyEveryUnstableBuild: true,
-                  recipients: "helge.skjellevik@gmail.com",
-                  sendToIndividuals: true])
-        }
+        //always {
+        //    step([$class: 'Mailer',
+        //          recipients: "helge.skjellevik@gmail.com",
+        //          sendToIndividuals: true])
+        //}
 
         success {
             slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
