@@ -18,7 +18,7 @@ pipeline {
     }
     tools {
         maven 'M3'
-        sonarScanner: 'SonarQube-Scanner'
+        //sonarScanner: 'SonarQube-Scanner'
     }
     environment {
         responseStatus=0
