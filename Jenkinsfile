@@ -77,7 +77,7 @@ pipeline {
 
                 timeout(time: 1, unit: 'MINUTES') {
                     input message: 'Does migration look ok? (Click "Proceed" to continue)'
-                    flywayrunner installationName: "${env.FLYWAY_NAME}, flywayCommand: 'migrate', credentialsId: "${env.FLYWAY_CREDENTIALS}", url: "${env.FLYWAY_DB_URL}", locations: "${env.FLYWAY_LOCATION}"", commandLineArgs: ''
+                    flywayrunner installationName: "${env.FLYWAY_NAME}", flywayCommand: 'migrate', credentialsId: "${env.FLYWAY_CREDENTIALS}", url: "${env.FLYWAY_DB_URL}", locations: "${env.FLYWAY_LOCATION}", commandLineArgs: ''
                 }
             }
         }
