@@ -6,11 +6,10 @@ pipeline {
         }
     }
     options {
-        // Only keep the 10 most recent builds
         buildDiscarder(logRotator(numToKeepStr:'5'))
         timestamps()
-        //Cancel build after 60 minutes
         timeout(time: 60, unit: 'MINUTES')
+        ansiColor colorMapName: 'XTerm'
     }
     triggers {
         //Build every 50 minutes
@@ -42,6 +41,7 @@ pipeline {
         }
         stage("Quality Gate") {
             steps {
+                sleep 10
                 timeout(time: 1, unit: 'MINUTES') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
                     // true = set pipeline to UNSTABLE, false = don't
