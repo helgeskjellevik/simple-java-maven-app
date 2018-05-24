@@ -9,12 +9,11 @@ pipeline {
         // Only keep the 10 most recent builds
         buildDiscarder(logRotator(numToKeepStr:'5'))
         timestamps()
+        //Cancel build after 60 minutes
+        timeout(time: 60, unit: 'MINUTES')
     }
     triggers {
-        /*
-          Restrict nightly builds to master branch, all others will be built on change only.
-          Note: The BRANCH_NAME will only work with a multi-branch job using the github-branch-source
-        */
+        //Build every 50 minutes
         cron("*/50 * * * *")
     }
     tools {
@@ -51,10 +50,6 @@ pipeline {
                         //maven: 'M3',
                         options: [findbugsPublisher(), checkstyle(), pmd(), junitPublisher(ignoreAttachments: false)]
                 ) {
-                    //sh "mvn -B -DskipTests clean package checkstyle:checkstyle findbugs:findbugs pmd:pmd package"
-                    //sh "export PATH=$MVN_CMD_DIR:$PATH && mvn -B -DskipTests clean package checkstyle:checkstyle findbugs:findbugs pmd:pmd package"
-                    echo "$MVN_CMD"
-
                     sh "$MVN_CMD --version"
                     sh "$MVN_CMD -B -DskipTests clean package checkstyle:checkstyle findbugs:findbugs pmd:pmd package"
                 }
