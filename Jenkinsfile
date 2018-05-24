@@ -115,6 +115,11 @@ pipeline {
         //    step([$class: 'Mailer',
         //          recipients: "helge.skjellevik@gmail.com",
         //          sendToIndividuals: true])
+
+        //mail(from: "helge.skjellevik@gmail.com",
+        //        to: "helge.skjellevik@gmail.com",
+        //        subject: "Jenkins notification",
+        //        body: "Blah Blah")
         //}
 
         success {
