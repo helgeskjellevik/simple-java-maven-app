@@ -53,7 +53,7 @@ pipeline {
         }
         stage ('Start') {
             steps {
-                slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) (${env.IMAGE}) (${env.VERSION})")
+                slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) (${env.CHANGE_AUTHOR}) (${env.VERSION})")
             }
         }
         stage('Checkout') {
