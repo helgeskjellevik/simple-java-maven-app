@@ -27,7 +27,6 @@ pipeline {
         FLYWAY_NAME = 'flyway-5.0.7'
         FLYWAY_CREDENTIALS = '997c1182-01ac-4ebd-9b58-65c864eaf7f2'
         FLYWAY_DB_URL = 'jdbc:mariadb://172.20.0.1:3306/fagdag'
-        //FLYWAY_LOCATION = 'filesystem:/home/utv2/simple-java-maven-app/src/main/resources/sql'
         FLYWAY_LOCATION = 'filesystem:/var/jenkins_home/jobs/fagdag/workspace/src/main/resources/sql'
     }
     stages {
@@ -147,15 +146,14 @@ pipeline {
                         }
                     }
                     steps {
-                        withDocker(
+                        withDockerContainer("maven:3.5.0-jdk-8-alpine") {
                             script{
                                 unstash 'targetfiles'
                                 sh 'cd docker'
                                 sh 'ls -l -R'
                                 def image = docker.build("image-name:test", ' .')
                             }
-                        )
-
+                        }
                     }
                 }
             }
