@@ -36,7 +36,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonarqube') {
                     echo 'sonarqube'
-                    //sh 'mvn sonar:sonar'
+                    sh 'mvn sonar:sonar'
                 }
             }
         }
@@ -47,7 +47,7 @@ pipeline {
                     // true = set pipeline to UNSTABLE, false = don't
                     // Requires SonarQube Scanner for Jenkins 2.7+
                     echo 'qualitygate'
-                    //waitForQualityGate abortPipeline: true
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
