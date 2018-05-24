@@ -36,27 +36,10 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                checkout scm
+                echo 'checkout done automatically from jenkins job config'
+                //checkout scm
             }
         }
-        //stage('Prepare') {
-        //    steps {
-        //        // GIT submodule recursive checkout
-        //        checkout scm: [
-        //                $class: 'GitSCM',
-        //                branches: scm.branches,
-        //                doGenerateSubmoduleConfigurations: false,
-        //                extensions: [[$class: 'SubmoduleOption',
-        //                              disableSubmodules: false,
-        //                              parentCredentials: false,
-        //                              recursiveSubmodules: true,
-        //                              reference: '',
-        //                              trackingSubmodules: false]],
-        //                submoduleCfg: [],
-        //                userRemoteConfigs: scm.userRemoteConfigs //https://github.com/helgeskjellevik/simple-java-maven-app.git
-        //        ]
-        //    }
-        //}
         stage('Build') {
             steps {
 
@@ -81,6 +64,13 @@ pipeline {
                 always {
                     junit 'target/surefire-reports/*.xml'
                 }
+            }
+        }
+        stage('Database migration') {
+            steps {
+                flywayrunner installationName: 'flyway-5.0.7', flywayCommand: 'info', credentialsId: 'cc74093d-6952-4387-ab7f-94164a8138ca', url: 'jdbc:mariadb://172.20.0.2:3306/fagdag', locations: 'filesystem:/home/utv2/simple-java-maven-app/src/main/resources/sql', commandLineArgs: ''
+                input message: 'Does migration look ok? (Click "Proceed" to continue)'
+                flywayrunner installationName: 'flyway-5.0.7', flywayCommand: 'migrate', credentialsId: 'cc74093d-6952-4387-ab7f-94164a8138ca', url: 'jdbc:mariadb://172.20.0.2:3306/fagdag', locations: 'filesystem:/home/utv2/simple-java-maven-app/src/main/resources/sql', commandLineArgs: ''
             }
         }
         stage('Validate') {
