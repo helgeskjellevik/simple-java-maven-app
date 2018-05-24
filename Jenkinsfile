@@ -50,6 +50,8 @@ pipeline {
                     sh "$MVN_CMD --version"
                     sh "$MVN_CMD -B -DskipTests clean package checkstyle:checkstyle findbugs:findbugs pmd:pmd package"
                 }
+
+                stash includes: 'target/*.jar', name: 'targetfiles'
             }
         }
         stage('QA') {
@@ -131,8 +133,26 @@ pipeline {
             }
         }
         stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
+            parallel {
+                stage('oldStyle') {
+                    steps {
+                        sh './jenkins/scripts/deliver.sh'
+                    }
+                }
+                stage('dockerStyle') {
+                    agent {
+                        node {
+                            label 'DockerDefault'
+                        }
+                    }
+                    steps {
+                        script{
+                            unstash 'targetfiles'
+                            sh 'ls -l -R'
+                            def image = docker.build("image-name:test", ' .')
+                        }
+                    }
+                }
             }
         }
     }
