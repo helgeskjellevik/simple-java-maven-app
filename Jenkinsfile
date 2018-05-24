@@ -149,8 +149,7 @@ pipeline {
                         withDockerContainer("maven:3.5.0-jdk-8-alpine") {
                             script{
                                 unstash 'targetfiles'
-                                sh 'ls -l -R'
-                                sh 'docker build -f="test" .'
+                                sh 'docker build -t="test" .'
                                 //def image = docker.build("image-name:test", ' .')
                             }
                         }
