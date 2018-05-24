@@ -75,8 +75,11 @@ pipeline {
                 //flywayrunner installationName: 'flyway-5.0.7', flywayCommand: 'clean', credentialsId: 'cc74093d-6952-4387-ab7f-94164a8138ca', url: 'jdbc:mariadb://172.20.0.1:3306/fagdag', locations: 'filesystem:/home/utv2/simple-java-maven-app/src/main/resources/sql', commandLineArgs: ''
                 //flywayrunner installationName: "${env.FLYWAY_NAME}", flywayCommand: 'info', credentialsId: 'cc74093d-6952-4387-ab7f-94164a8138ca', url: 'jdbc:mariadb://172.20.0.1:3306/fagdag', locations: 'filesystem:/home/utv2/simple-java-maven-app/src/main/resources/sql', commandLineArgs: ''
                 flywayrunner installationName: "${env.FLYWAY_NAME}", flywayCommand: 'info', credentialsId: "${env.FLYWAY_CREDENTIALS}", url: "${env.FLYWAY_DB_URL}", locations: "${env.FLYWAY_LOCATION}", commandLineArgs: ''
-                //input message: 'Does migration look ok? (Click "Proceed" to continue)'
-                //flywayrunner installationName: 'flyway-5.0.7', flywayCommand: 'migrate', credentialsId: 'cc74093d-6952-4387-ab7f-94164a8138ca', url: 'jdbc:mariadb://172.20.0.1:3306/fagdag', locations: 'filesystem:/home/utv2/simple-java-maven-app/src/main/resources/sql', commandLineArgs: ''
+
+                timeout(time: 1, unit: 'MINUTES') {
+                    input message: 'Does migration look ok? (Click "Proceed" to continue)'
+                    flywayrunner installationName: "${env.FLYWAY_NAME}, flywayCommand: 'migrate', credentialsId: "${env.FLYWAY_CREDENTIALS}", url: "${env.FLYWAY_DB_URL}", locations: "${env.FLYWAY_LOCATION}"", commandLineArgs: ''
+                }
             }
         }
         stage('Validate') {
