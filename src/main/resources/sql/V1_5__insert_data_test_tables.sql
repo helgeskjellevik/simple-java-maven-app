@@ -1,1 +1,0 @@
-INSERT INTO book_tbl values ('test_bok_tittel', 'Alf Hansen', '2017-01-04', 1, 2, 4)
