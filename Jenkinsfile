@@ -77,8 +77,8 @@ pipeline {
                     three: {
                         echo "I'm on the third branch!"
                         echo "But you probably guessed that already."
-                    })
-                }
+                    }
+                )
             }
         }
         stage('Database migration') {
