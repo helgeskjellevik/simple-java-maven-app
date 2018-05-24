@@ -17,7 +17,6 @@ pipeline {
     }
     tools {
         maven 'M3'
-        //sonarScanner: 'SonarQube-Scanner'
     }
     environment {
         responseStatus=0
@@ -31,26 +30,6 @@ pipeline {
         FLYWAY_LOCATION = 'filesystem:/home/utv2/simple-java-maven-app/src/main/resources/sql'
     }
     stages {
-        stage('Sonar') {
-            steps {
-                withSonarQubeEnv('sonarqube') {
-                    echo 'sonarqube'
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
-        stage("Quality Gate") {
-            steps {
-                //sleep 2
-                timeout(time: 1, unit: 'MINUTES') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    // Requires SonarQube Scanner for Jenkins 2.7+
-                    echo 'qualitygate'
-                    waitForQualityGate abortPipeline: false
-                }
-            }
-        }
         stage ('Start') {
             steps {
                 slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) (${env.CHANGE_AUTHOR}) (${env.VERSION})")
@@ -58,7 +37,7 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                echo 'checkout done automatically from jenkins job config'
+                echo 'checkout happens automatically based on jenkins job config'
                 //checkout scm
             }
         }
@@ -66,7 +45,6 @@ pipeline {
             steps {
 
                 withMaven(
-                        //maven: 'M3',
                         options: [findbugsPublisher(), checkstyle(), pmd(), junitPublisher(ignoreAttachments: false)]
                 ) {
                     sh "$MVN_CMD --version"
@@ -84,6 +62,27 @@ pipeline {
                 }
             }
         }
+        stage('QA') {
+            steps {
+                parallel {
+                    stage('Sonar') {
+                        steps {
+                            withSonarQubeEnv('sonarqube') {
+                                sh 'mvn sonar:sonar'
+                            }
+                        }
+                    }
+                    stage("Quality Gate") {
+                        steps {
+                            timeout(time: 1, unit: 'MINUTES') {
+                                waitForQualityGate abortPipeline: true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         stage('Parallell test') {
             steps {
                 parallel(
@@ -103,7 +102,6 @@ pipeline {
 
         stage('Database migration') {
             steps {
-                //flywayrunner installationName: "${env.FLYWAY_NAME}", flywayCommand: 'clean', credentialsId: "${env.FLYWAY_CREDENTIALS}", url: "${env.FLYWAY_DB_URL}", locations: "${env.FLYWAY_LOCATION}", commandLineArgs: ''
                 flywayrunner installationName: "${env.FLYWAY_NAME}", flywayCommand: 'info', credentialsId: "${env.FLYWAY_CREDENTIALS}", url: "${env.FLYWAY_DB_URL}", locations: "${env.FLYWAY_LOCATION}", commandLineArgs: ''
 
                 timeout(time: 1, unit: 'MINUTES') {
@@ -119,9 +117,6 @@ pipeline {
                             url: "https://jsonplaceholder.typicode.com/posts"
 
                     responseStatus = response.status
-
-                    //println("Status: " + response.status)
-                    //println("Content: " + response.content)
                 }
             }
         }
@@ -142,13 +137,8 @@ pipeline {
         }
     }
     post {
-        //always {
-        //    step([$class: 'Mailer',
-        //          recipients: "helge.skjellevik@gmail.com",
-        //          sendToIndividuals: true])
-
-        //mail(from: "helge.skjellevik@gmail.com",
-        //        to: "helge.skjellevik@gmail.com",
+        //mail(from: "noreply@noreply",
+        //        to: "you@gmail.com",
         //        subject: "Jenkins notification",
         //        body: "Blah Blah")
         //}
