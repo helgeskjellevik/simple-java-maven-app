@@ -15,18 +15,6 @@ public class App
     }
 
     private final String getMessage() {
-
-        String m = "a";
-        m = "b";
-        m = "c";
-
-        String n = "h";
-
-        if(m == m) {
-            System.out.println("oh no");
-        }
-
-
         return message;
     }
 
