@@ -30,6 +30,7 @@ pipeline {
     stages {
         stage ('Start') {
             steps {
+                echo 'from local repository'
                 slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) (${env.IMAGE}) (${env.VERSION})")
             }
         }
